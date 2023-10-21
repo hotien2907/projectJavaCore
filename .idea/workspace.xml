@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="58d3fb89-8c5e-4e96-a3eb-0448d55002c5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ProjectJavaCore1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/config/ConsoleColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/config/Inputmethods.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/config/OderStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/config/Validation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/constant/Contant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/controllers/CartService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/controllers/CategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/controllers/MenuService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/controllers/OrderService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/controllers/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/controllers/fileservice/IoFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/models/Cart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/models/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/models/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/models/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/models/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/repository/IShop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/run/Program.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/views/CartView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/views/CategoryView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/views/MenuView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ra/views/UserView.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2WpxAT8eEO3LtKppZ6fvCynO1Xe" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/MODULE3_JAVACORE/ProjectJavaCore1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/MODULE3_JAVACORE/ProjectJavaCore1/src/Main.java&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="ra.run" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Program" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ra.run.Program" />
+      <module name="ProjectJavaCore1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ra.run.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Program" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="58d3fb89-8c5e-4e96-a3eb-0448d55002c5" name="Changes" comment="" />
+      <created>1697443180521</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697443180521</updated>
+      <workItem from="1697443181534" duration="1875000" />
+      <workItem from="1697445373840" duration="6883000" />
+      <workItem from="1697467651752" duration="9663000" />
+      <workItem from="1697504665390" duration="24042000" />
+      <workItem from="1697548571111" duration="597000" />
+      <workItem from="1697591003359" duration="28980000" />
+      <workItem from="1697640249655" duration="14063000" />
+      <workItem from="1697677382559" duration="2473000" />
+      <workItem from="1697679918215" duration="23662000" />
+      <workItem from="1697726484534" duration="1214000" />
+      <workItem from="1697728601300" duration="144000" />
+      <workItem from="1697728965032" duration="13026000" />
+      <workItem from="1697763791237" duration="26902000" />
+      <workItem from="1697797578086" duration="61000" />
+      <workItem from="1697800846740" duration="3427000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$USER_HOME$/Documents/Zalo Received Files/config/Constant.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/ra/views/UserView.java</url>
+          <line>229</line>
+          <properties class="ra.views.UserView" method="registerUser">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
