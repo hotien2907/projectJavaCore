@@ -1,23 +1,28 @@
 package ra.models;
-
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static ra.config.OderStatus.*;
-
-public class Order {
+public class Order implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private int id ;
     private int idUser ;
     private double total ;
-    private Date buyDate = new Date();
+    private LocalDateTime buyDate ;
     private String receiver;
     private String numberPhone ;
     private String address ;
     private  byte status = 0 ;
-
+    public static List<Cart> orderDetail = new ArrayList<>();
     public Order() {
     }
 
-    public Order(int id, int idUser, double total, Date buyDate, String receiver, String numberPhone, String address, byte status) {
+    public Order(int id, int idUser, double total, LocalDateTime buyDate, String receiver, String numberPhone, String address, byte status, List<Cart> orderDetail) {
         this.id = id;
         this.idUser = idUser;
         this.total = total;
@@ -26,6 +31,15 @@ public class Order {
         this.numberPhone = numberPhone;
         this.address = address;
         this.status = status;
+        this.orderDetail = orderDetail;
+    }
+
+    public List<Cart> getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(List<Cart> orderDetail) {
+        this.orderDetail = orderDetail;
     }
 
     public int getId() {
@@ -52,11 +66,11 @@ public class Order {
         this.total = total;
     }
 
-    public Date getBuyDate() {
+    public LocalDateTime getBuyDate() {
         return buyDate;
     }
 
-    public void setBuyDate(Date buyDate) {
+    public void setBuyDate(LocalDateTime buyDate) {
         this.buyDate = buyDate;
     }
 
@@ -92,8 +106,8 @@ public class Order {
         this.status = status;
     }
     public void display(){
-        System.out.println("Id : " +id + " | Ten nguoi nhan : "+receiver+ " | So dien thoai : "+ numberPhone);
-        System.out.println("địa chỉ" + this.address);
-        System.out.println("Trang thai : " + getStatusByCode(status));
+        System.out.println("Id : " +id + " | Tên người nhận : "+receiver+ " |Số điện thoại : "+ numberPhone);
+        System.out.println("Địa chỉ" + this.address+"| Trạng thái :" + getStatusByCode(status));
+
     }
 }

@@ -1,19 +1,18 @@
 package ra.config;
 
-
 import static ra.config.ConsoleColor.*;
-
 public  class Validation {
+
     public static boolean isValidPassword(String password) {
         String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&*!])[A-Za-z\\d@#$%^&*!]{8,}$";
         if (password.isEmpty()) {
             printlnError("Password không được để trống.");
             return false;
         } else if (password.length() < 8) {
-            printlnError("Password phải có ít nhất 8 ký tự ");
+            printlnError("Password phải có ít nhất 8 ký tự. ");
             return false;
         } else if (!password.matches(passwordRegex)) {
-           printlnError("Password chưa chứ hoa, ký tự đặc biệt và số .");
+            printlnError("Password chứa ký tự hoa, ký tự đặc biệt và số.");
             return false;
         }
         return true;
@@ -26,6 +25,7 @@ public  class Validation {
         }
         return true;
     }
+
     public static boolean isValidPhone(String phone) {
         String phoneRegex = "^(\\+\\d{1,3}[- ]?)?\\d{10}$";
 
@@ -39,9 +39,10 @@ public  class Validation {
 
         return true;
     }
+
     public static boolean isValidAddress(String address) {
         if (address.isEmpty()) {
-          printlnError("Địa chỉ không để trống");
+            printlnError("Địa chỉ không để trống");
             return false;
         }
         return true;
@@ -50,7 +51,7 @@ public  class Validation {
     public static boolean isValidEmail(String email) {
         String emailRegex = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$";
         if (email.isEmpty()) {
-          printlnError("Email không được để trống.");
+            printlnError("Email không được để trống.");
             return false;
         } else if (!email.matches(emailRegex)) {
             printlnError("Email không đúng định dạng.");

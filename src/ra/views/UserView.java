@@ -1,19 +1,13 @@
 package ra.views;
-
-
-
 import ra.controllers.UserService;
 import ra.models.User;
-
 import static ra.config.ConsoleColor.*;
 import static ra.config.Inputmethods.*;
-
 import java.util.List;
 import java.util.Scanner;
-
-
 import static ra.config.Validation.*;
 import static ra.constant.Contant.ADMIN_CODE;
+import static ra.constant.Contant.Importance.*;
 import static ra.constant.Contant.Role.*;
 import static ra.constant.Contant.Status.*;
 import static ra.views.CategoryView.scanner;
@@ -21,26 +15,53 @@ import static ra.views.CategoryView.scanner;
 public class UserView {
     private UserService userService;
     private MenuView menuView;
-  private  CartView cartView;
+    private CartView cartView;
     private CategoryView categoryView;
-   static String userName;
+    private OrderHistoryView orderHistoryView;
 
-    public UserView(UserService userService, MenuView menuView, CategoryView categoryView,CartView cartView) {
+    public UserView(UserService userService, MenuView menuView, CartView cartView, CategoryView categoryView, OrderHistoryView orderHistoryView) {
         this.userService = userService;
         this.menuView = menuView;
+        this.cartView = cartView;
         this.categoryView = categoryView;
-        this.cartView =cartView;
+        this.orderHistoryView = orderHistoryView;
+    }
+
+    static String userName;
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public MenuView getMenuView() {
+        return menuView;
+    }
+
+    public CartView getCartView() {
+        return cartView;
+    }
+
+    public CategoryView getCategoryView() {
+        return categoryView;
+    }
+
+    public OrderHistoryView getOrderHistoryView() {
+        return orderHistoryView;
+    }
+
+    public static String getUserName() {
+        return userName;
     }
 
     public void loginOrRegister(Scanner scanner) {
-
-        print(BLUE);
+        resetAll();
+        print(YELLOW);
         System.out.println("╔══════════════════════════════════════╗");
         System.out.println("║       😍🧡  QUẢN LÝ QUÁN CAFE 😍😍  ║");
         System.out.println("╟────────┬─────────────────────────────╢");
-        System.out.println("║   1    │    Đăng nhập                ║");
-        System.out.println("║   2    │    Đăng ký                  ║");
-        System.out.println("║   3    │    Thoát                    ║");
+        System.out.println("║   1    │    👩 Đăng nhập             ║");
+        System.out.println("║   2    │    🧒 Đăng ký               ║");
+        System.out.println("║   3    │       Thoát                 ║");
         System.out.println("╚════════╧═════════════════════════════╝");
         System.out.println("Nhập vào lựa chọn của bạn 🧡🧡 : ");
         printFinish();
@@ -53,10 +74,10 @@ public class UserView {
 
                 String pass;
 
-                System.out.println("Hay thuc hien dang nhap");
+                printlnMess("Thực hiện đăng nhập 🧡😍:");
                 while (true) {
-                    printlnSuccess(" userName: ");
-                    userName = scanner.nextLine();
+                    System.out.println("UserName: ");
+                    userName = getString();
                     if (isValidFullName(userName)) {
                         break;
                     }
@@ -70,18 +91,26 @@ public class UserView {
                 }
                 User user;
                 user = userService.login(userName, pass);
-                if (user != null) {
-                    userService.setStatusLogin(userName, ACTIVE);
-                    if (user.getRole() == ADMIN) {
 
-                        displayAdminMenu(scanner);
+                if (user != null) {
+                    if (user.isImportance()) {
+                        userService.setStatusLogin(userName, ACTIVE);
+                        if (user.getRole() == ADMIN) {
+
+                            displayAdminMenu(scanner);
+
+                        } else {
+                            displayUserMenu(scanner);
+                        }
 
                     } else {
-                        displayUserMenu(scanner);
+                        printlnError("Tài khoản của bạn đã bị khóa😂😂 !!");
+                        loginOrRegister(scanner);
                     }
 
+
                 } else {
-                    printlnError("Đăng nhập thấy bại,Mật khâu hoặc UserName ko trùng hợp!!! ");
+                    printlnError("Đăng nhập thấy bại,Mật khẩu hoặc UserName ko trùng hợp!!! ");
                     loginOrRegister(scanner);
 
                 }
@@ -97,50 +126,69 @@ public class UserView {
         }
     }
 
+
+    private void resetAll() {
+        List<User> users = userService.getAll();
+        for (User us : users
+        ) {
+            us.setStatus(INACTIVE);
+        }
+        userService.update(users);
+    }
+
     private void displayUserMenu(Scanner scanner) {
         int choice;
-      do {
-          print(PURPLE);
-          System.out.println("╔══════════════════════════════════════╗");
-          System.out.println("║       😍🧡  QUẢN LÝ USER 😍😍       ║");
-          System.out.println("╟────────┬─────────────────────────────╢");
-          System.out.println("║   1    │    Trang chủ                ║");
-          System.out.println("║   2    │    Giỏi hàng                ║");
-          System.out.println("║   4    │    Đặt bàn                  ║");
-          System.out.println("║   5    │    Đăng xuất                ║");
-          System.out.println("╚════════╧═════════════════════════════╝");
-          System.out.println("Nhập vào lựa chọn của bạn 🧡🧡 : ");
-          printFinish();
+        do {
+            print(PURPLE);
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║       😍🧡  QUẢN LÝ USER 😍😍       ║");
+            System.out.println("╟────────┬─────────────────────────────╢");
+            System.out.println("║   1    │    Trang chủ                ║");
+            System.out.println("║   2    │    Giỏi hàng                ║");
+            System.out.println("║   5    │    Đăng xuất                ║");
+            System.out.println("╚════════╧═════════════════════════════╝");
+            System.out.println("Nhập vào lựa chọn của bạn 🧡🧡 : ");
+            printFinish();
 
-    choice = getInteger();
-          switch (choice) {
-              case 1:
-                  menuView.displayUserMenuProduct();
-                  break;
+            choice = getInteger();
+            switch (choice) {
+                case 1:
+                    menuView.displayUserMenuProduct();
+                    break;
 
-              case 2:
-                  cartView.displayMenuCart();
-                  break;
-              case 5:
-                  logout();
-                  break;
-          }
-      }while (choice !=5);
+                case 2:
+                    cartView.displayMenuCart();
+                    break;
+                case 5:
+                    logout();
+                    break;
+            }
+        } while (choice != 5);
     }
 
 
-    private void displayAdminMenu(Scanner scanner) {
+    public void displayAdminMenu(Scanner scanner) {
         int choice;
+
+
         do {
-            System.out.println("***************Admin **********************");
-            System.out.println("1. quan ly nguoi dung");
-            System.out.println("2. quan ly danh muc");
-            System.out.println("3. quan ly sp");
-            System.out.println("4. hoa don");
-            System.out.println("5.Quản lý nhân viên");
-            System.out.println("6.dang xuat");
-            System.out.println("7.Thoát");
-            System.out.println("8.Đănng xuất");
+
+            print(PURPLE);
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║          😍🧡  ADMIN 😍😍           ║");
+            System.out.println("╟────────┬─────────────────────────────╢");
+            System.out.println("║   1    │    Quản lý người dùng       ║");
+            System.out.println("║   2    │    Quản lý danh mục         ║");
+            System.out.println("║   3    │    Quản lý sản phẩm         ║");
+            System.out.println("║   4    │    Quản lý Đơn hàng         ║");
+            System.out.println("║   5    │    Quản lý nhân viên        ║");
+            System.out.println("║   6    │    Quản lý đặt bàn          ║");
+            System.out.println("║   7    │    Quay lại menu trước      ║");
+            System.out.println("║   8    │    Đăng xuất                ║");
+            System.out.println("╚════════╧═════════════════════════════╝");
+            System.out.println("Nhập vào lựa chọn của bạn 🧡🧡 : ");
+            printFinish();
+
             choice = getInteger();
             switch (choice) {
                 case 1:
@@ -154,9 +202,9 @@ public class UserView {
                     menuView.displayMenuAdminMenuProduct();
                     break;
                 case 4:
+                    orderHistoryView.menuAdminOrder();
                     break;
                 case 7:
-                    System.out.println("thoát");
                     return;
 
                 case 8:
@@ -169,85 +217,114 @@ public class UserView {
     }
 
     public void logout() {
+        userService.setStatusLogin(userName, INACTIVE);
         loginOrRegister(scanner);
-        userService.setStatusLogin(userName,INACTIVE);
+
     }
 
     private void userManagement(Scanner scanner) {
-        System.out.println("***************** userManagement********************");
-        System.out.println("1.Hiển thị danh sách người dùng");
-        System.out.println("2.Tìm kiếm người dùng theo tên");
-//        System.out.println("3.Khoá/mở khóa người dùng");
-        System.out.println("4.Thoát");
-        System.out.println("nhap vao lua chon");
-        int choice = getInteger();
-        switch (choice) {
-            case 1:
-                displayUserList();
-                break;
-            case 2:
-                displayUserByUserName(scanner);
+        int choice;
 
-                break;
-            case 3:
-//                changeUserStatus(scanner);
-                break;
-            default:
-                break;
+        do {
+            print(CYAN);
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║       😍🧡  QUẢN LÝ USER 😍😍       ║");
+            System.out.println("╟────────┬─────────────────────────────╢");
+            System.out.println("║   1    │    Danh sách user           ║");
+            System.out.println("║   2    │    Tìm kiếm user theo tên   ║");
+            System.out.println("║   3    │    Khóa/ mở user            ║");
+            System.out.println("║   4    │    Quay lại menu trước      ║");
+            System.out.println("║   5    │    Đăng xuất                ║");
+            System.out.println("╚════════╧═════════════════════════════╝");
+            System.out.println("Nhập vào lựa chọn của bạn 🧡🧡 : ");
+            choice = getInteger();
+            printFinish();
+
+            switch (choice) {
+                case 1:
+                    displayUserList();
+                    break;
+                case 2:
+                    displayUserByUserName(scanner);
+
+                    break;
+                case 3:
+                    changeUserImportance(scanner);
+                    break;
+                case 4:
+                    return;
+                case 5:
+                    logout();
+                    break;
+                default:
+                    break;
+            }
+        } while (true);
+
+
+    }
+
+    private void changeUserImportance(Scanner scanner) {
+        System.out.println("Hãy nhập username bạn muốn thay đổi trạng thái:");
+        String username = getString();
+        User user = userService.getUserByUsename(username);
+        if (user == null) {
+            printlnError("Không tìm thấy username bạn muốn đổi trạng thái !!");
+        } else {
+            if (user.getRole() == ADMIN) {
+                printlnError("Không thể khóa user ADMIN !!");
+            } else {
+                userService.updateImportance((user.isImportance() == OPEN ? BLOOK : OPEN), username);
+                printlnSuccess("Thay đổi trạng thái thành công!");
+            }
+
         }
 
     }
 
-//    private void changeUserStatus(Scanner scanner) {
-//        System.out.println("Hãy nhập username bạn muốn thay đổi trạng thái");
-//        String username = scanner.nextLine();
-//        System.out.println("Hãy nhập vào trạng thái bạn muốn set cho user (0: BLOCK, 1: ACTIVE)");
-//        int statusInt = Integer.parseInt(scanner.nextLine());
-//        userService.setStatusByUsername(statusInt == 0 ? BLOCK : ACTIVE, username);
-//        printlnSuccess("Thay đổi trạng thái thành công!");
-//    }
-
     private void displayUserByUserName(Scanner scanner) {
-        System.out.println("nhap vao tu khoa tim kiem");
+        printlnMess("Nhập vào từ khóa tìm kiếm theo tên: !!");
         String username = scanner.nextLine();
         List<User> fitterUsers = userService.getUserListByUsername(username);
         for (User us : fitterUsers
         ) {
-            System.out.println(us);
+            us.display();
         }
     }
 
     private void displayUserList() {
         List<User> sortedUsers = userService.getSortedUserList();
-        System.out.println(" danh sach sap xep theo ten");
+        printlnMess("Danh sách user được sắp xếp theo tên !!!");
         for (User us : sortedUsers
         ) {
-            us.disphay();
+
+            us.display();
+
         }
     }
 
 
     private User registerUser(Scanner scanner) {
         User user = new User();
-        System.out.println("Vui lòng đănng ký tài khoản");
-        System.out.println("Hãy chọn role của bạn ( 1: ADMIN            2: USER) : ");
-               int role = getInteger();
+        printlnMess("Vui lòng đăng ký tài khoản !!");
+        System.out.println("Hãy chọn role của bạn 1: ADMIN            2: USER: ");
+        int role = getInteger();
+        user.setId(userService.autoInc());
+        if (role == ADMIN) {
+            user.setRole(role);
 
-               if(role==ADMIN){
-                   user.setRole(role);
-
-                   System.out.println("Nhập vào mã xác nhận ADMIN");
-                   String adminCode = getString();
-                   if(!adminCode.equals(ADMIN_CODE)){
-                       printlnError("Mã xác nhập không đúng.Vui lòng ");
-                       registerUser(scanner);
-                   }
-               }
+            printlnMess("Nhập vào mã xác nhận ADMIN: ");
+            String adminCode = getString();
+            if (!adminCode.equals(ADMIN_CODE)) {
+                printlnError("Mã xác nhập không đúng.Vui lòng thử lại !! ");
+                registerUser(scanner);
+            }
+        }
 
         System.out.println();
         while (true) {
 
-            System.out.println("Hãy nhập vào tên đầy đủ");
+            System.out.println("Hãy nhập vào họ tên đầy đủ: ");
             String fullName = scanner.nextLine();
 
             if (isValidFullName(fullName)) {
@@ -256,22 +333,20 @@ public class UserView {
             }
         }
 
-//        while (true) {
+        while (true) {
+            System.out.println("Nhập vào userName: ");
+            String name = scanner.nextLine();
+            if (userService.isValidName(name)) {
+                user.setUsername(name);
+                break;
+            }
 
-//            String name = scanner.nextLine();
-//            if (userService.isValidName(name)) {
-//                user.setUsername(name);
-//                break;
-//            }
-//
-//
-//        }
-        System.out.println("Hãy nhập vào userName");
-        String name = scanner.nextLine();
-        user.setUsername(name);
+
+        }
+
 
         while (true) {
-            System.out.println("Hãy nhập vào Email");
+            System.out.println("Hãy nhập vào email:");
             String email = scanner.nextLine();
             if (isValidEmail(email)) {
                 user.setEmail(email);
@@ -279,7 +354,7 @@ public class UserView {
             }
         }
         while (true) {
-            System.out.println("Hãy nhập vào pass");
+            System.out.println("Hãy nhập vào password:");
             String pass = scanner.nextLine();
             if (isValidPassword(pass)) {
                 user.setPassword(pass);
@@ -290,7 +365,7 @@ public class UserView {
 
         while (true) {
 
-            System.out.println("Hãy nhập vào địa chỉ");
+            System.out.println("Hãy nhập vào địa chỉ:");
             String address = scanner.nextLine();
             if (isValidAddress(address)) {
                 user.setAddress(address);
@@ -301,7 +376,7 @@ public class UserView {
 
 
         while (true) {
-            System.out.println("Hãy nhập vào phone");
+            System.out.println("Hãy nhập vào phone:");
             String phone = scanner.nextLine();
             if (isValidPhone(phone)) {
                 user.setPhone(phone);
@@ -309,7 +384,7 @@ public class UserView {
             }
 
         }
-        user.setId(userService.autoInc());
+
         return user;
     }
 

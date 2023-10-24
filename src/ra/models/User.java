@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ra.constant.Contant.Importance.*;
 import static ra.constant.Contant.Role.*;
 import static ra.constant.Contant.Status.*;
 
@@ -18,15 +19,17 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private boolean status;
+    private boolean importance;
     private String address;
     private int role;
     private List<Cart> cart = new ArrayList<>();
 
     public User() {
-        status = false;
+        status = INACTIVE;
+        importance = OPEN;
     }
 
-    public User(int id, String username, String fullName, String password, String email, String phone, boolean status, String address, int role, List<Cart> cart) {
+    public User(int id, String username, String fullName, String password, String email, String phone, boolean status, boolean importance, String address, int role, List<Cart> cart) {
         this.id = id;
         this.username = username;
         this.fullName = fullName;
@@ -34,9 +37,18 @@ public class User implements Serializable {
         this.email = email;
         this.phone = phone;
         this.status = status;
+        this.importance = importance;
         this.address = address;
         this.role = role;
         this.cart = cart;
+    }
+
+    public boolean isImportance() {
+        return importance;
+    }
+
+    public void setImportance(boolean importance) {
+        this.importance = importance;
     }
 
     public int getId() {
@@ -119,9 +131,18 @@ public class User implements Serializable {
         this.cart = cart;
     }
 
-    public void disphay() {
-        System.out.printf("Username: %s - Full Name: %s \n", this.username, this.fullName);
-        System.out.printf("%sPassword: %s-Email: %sPhone: ===Status:%s=== %b-Address: %s-Role:  \n",
-                this.password, this.email, this.phone, (this.status ?("'ACTIVE'")  : ("'INACTIVE'")), this.address, this.role == ADMIN ? "'ADMIN'" : "'USER'");
+    public void display() {
+
+        System.out.println("ID:" + this.id + " -Username: " + this.username + " - Email: " + this.email  );
+        System.out.println("Status: " + (this.status ? "ACTIVE" : "INACTIVE") + " - Role: " + (this.role == ADMIN ? "ADMIN" : "USER")+" -Trạng thái khóa/mở:" + (this.importance == OPEN ? "MỞ" : "KHÓA"));
+        System.out.println("cart" + this.cart);
+        System.out.println("|------------------------------------------------------|");
     }
+//    @Override
+//    public boolean equals(Object obj) {
+//        Category o = (Category) obj;
+//        return this.categoryId == o.categoryId && this.categoryName.equals(o.categoryName);
+//    }
+
+
 }

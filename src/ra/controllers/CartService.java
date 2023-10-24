@@ -1,57 +1,41 @@
 package ra.controllers;
-
-import ra.controllers.fileservice.IoFile;
 import ra.models.Cart;
 import ra.models.User;
 import ra.repository.IShop;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class CartService implements IShop<Cart> {
-    private IoFile ioFile;
-
     private UserService userService;
-    private MenuService menuService;
-    private List<Cart> carts = new ArrayList<>();
-
-    public CartService(IoFile ioFile, UserService userService, MenuService menuService) {
-        this.ioFile = ioFile;
+    public CartService(UserService userService) {
         this.userService = userService;
-        this.menuService = menuService;
-
     }
-
     public User userLogin() {
         User userLogin = userService.userAcitive();
         return userLogin;
     }
 
+
     @Override
     public void save(Cart cart) {
+        User user = userLogin();
+        List<Cart> carts = user.getCart();
+        Cart existingCart = findByProductId(cart.getProduct().getProductId());
+        if (existingCart != null) {
+            // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
+            existingCart.setQuantity(existingCart.getQuantity() + cart.getQuantity());
+            int index = findByIndex(cart.getProduct().getProductId());
+            carts.set(index, existingCart);
 
-        List<Cart> carts = userLogin().getCart();
-        if (findById(cart.getCartId()) == null) {
-            // TODO : them moi
-           cart = findByProductId(cart.getProduct().getProductId());
-            if (cart != null) {
-                if (carts.contains(cart)) {
-                    // TODO : da co san pham trong gio hang
-                   cart.setQuantity(cart.getQuantity() + cart.getQuantity());
-                } else {
-                    carts.add(cart);
-                }
-            } else {
-                // TODO : chua co san pham trong gio hang
-                carts.add(cart) ;
-            }
+        } else {
+            // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
+            carts.add(cart);
         }
-        // lua du lieu vao file
-        userService.save(userLogin());
+
+        userService.save(user);
     }
 
     @Override
-    public List<Cart> displayAll() {
+    public List<Cart> getAll() {
         return userLogin().getCart();
     }
 
@@ -64,30 +48,60 @@ public class CartService implements IShop<Cart> {
         }
         return null;
     }
+
     public Cart findByProductId(int id) {
         for (Cart ci : userLogin().getCart()) {
             if (ci.getProduct().getProductId() == id) {
-                return ci ;
+                return ci;
             }
         }
         return null;
     }
+
     @Override
     public void delete(Cart cart) {
 
     }
 
+
+    public void deleteCart(int index) {
+        User user = userLogin();
+        List<Cart> carts = user.getCart();
+        carts.remove(index);
+        user.setCart(carts);
+        for (Cart ca : carts
+        ) {
+            ca.display();
+        }
+        userService.save(user);
+    }
+
+    public void deleteAll() {
+        User user = userLogin();
+        user.setCart(new ArrayList<>());
+        userService.save(user);
+    }
+
     @Override
     public void update(List<Cart> t) {
-
+//        User user = userLogin();
+//     userLogin().setCart(t);
+//        userService.save(user);
     }
+
 
     @Override
     public int findByIndex(int id) {
-        return 0;
+        List<Cart> carts = getAll();
+        for (int i = 0; i < carts.size(); i++) {
+            if (carts.get(i).getCartId() == id) {
+                return i;
+            }
+        }
+        return -1;
     }
 
-    public int getNewId() {
+    public int autoInc() {
         int max = 0;
         for (Cart ci : userLogin().getCart()) {
             if (ci.getCartId() > max) {

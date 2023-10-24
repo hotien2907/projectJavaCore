@@ -8,9 +8,8 @@ public class ConsoleColor {
     public static final String YELLOW = "yellow";
     public static final String BLUE = "blue";
     public static final String PURPLE = "purple";
-    public static final String  CYAN = "cyan";
+    public static final String CYAN = "cyan";
     public static final String WHITE = "white";
-
 
 
     public static void print(String color) {
@@ -57,10 +56,11 @@ public class ConsoleColor {
 
     public static void printFinish() {
 
-                System.out.print("\u001B[0m");
+        System.out.print("\u001B[0m");
 
     }
-    public static void  sout(String color, String text) {
+
+    public static void sout(String color, String text) {
         switch (color) {
             case "default":
                 System.out.println("\u001B[0m" + text + "\u001B[0m");
@@ -99,8 +99,14 @@ public class ConsoleColor {
         System.out.println("\u001B[31m" + text + "\u001B[0m");
 
     }
-   public static void printlnSuccess(String text){
-       System.out.println("\u001B[32m" + text + "\u001B[0m");
-   }
+
+    public static void printlnSuccess(String text) {
+        System.out.println("\u001B[32m" + text + "\u001B[0m");
+    }
+    public static void printlnMess(String text) {
+
+        System.out.println("\u001B[34m" + text + "\u001B[0m");
+
+    }
 
 }

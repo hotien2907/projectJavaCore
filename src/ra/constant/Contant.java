@@ -12,11 +12,16 @@ public class Contant {
         public  static  final boolean ACTIVE = true;
         public  static  final  boolean INACTIVE = false;
     }
+     public  static  class Importance{
+        public  static final  boolean BLOOK = false;
+        public  static final  boolean OPEN = true;
+     }
     public  static  class FilePath{
         public  static  final String COMMON_PATH = "data";
         public  static  final String USER_FILE = "/user.dat";
         public  static  final String PRODUCT_FILE = "/product.dat";
         public  static  final String CATEGORY_FILE = "/category.dat";
+        public  static  final String ORDER_FILE = "/order.dat";
 
     }
 

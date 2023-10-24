@@ -3,80 +3,118 @@ package ra.views;
 import ra.controllers.CartService;
 import ra.controllers.CategoryService;
 import ra.controllers.MenuService;
-
 import ra.models.Cart;
 import ra.models.Category;
 import ra.models.Product;
-
 import java.util.List;
 import java.util.Scanner;
-
 import static ra.config.ConsoleColor.*;
 import static ra.config.Inputmethods.*;
 
 
 public class MenuView {
-
- private  CartView cartView;
+    private CartView cartView;
     private MenuService menuService;
     private CartService cartService;
     private CategoryService categoryService;
+    private UserView userView;
 
-    public MenuView(CartView cartView, MenuService menuService, CartService cartService, CategoryService categoryService) {
+    public MenuView(CartView cartView, MenuService menuService, CartService cartService, CategoryService categoryService, UserView userView) {
         this.cartView = cartView;
         this.menuService = menuService;
         this.cartService = cartService;
         this.categoryService = categoryService;
+        this.userView = userView;
     }
 
-    static  Scanner scanner = new Scanner(System.in);
+    public void setUserView(UserView userView) {
+        this.userView = userView;
+    }
+
+    static Scanner scanner = new Scanner(System.in);
+
     public void displayUserMenuProduct() {
-        int choice ;
+        int choice;
 
         do {
 
-            System.out.println("********************USER-PRODUCT***********************");
-            System.out.println("1.Hiển thị danh sách món ăn và đồ uống");
-            System.out.println("2.Xem thông tin chi tiết của sản phẩm");
-            System.out.println("3.Thêm vào gỏi hàng");
-            System.out.println("4.Xem giỏ hàng");
-            System.out.println("5.Quay lại menu trước");
+            print(BLACK);
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║          😍🧡USER-PRODUCT😍😍       ║");
+            System.out.println("╟────────┬─────────────────────────────╢");
+            System.out.println("║   1    │    Hiển thị ds thực đơn     ║");
+            System.out.println("║   2    │    Tìm kiếm thực đơn        ║");
+            System.out.println("║   3    │    Thêm vào  giỏ hàng       ║");
+            System.out.println("║   4    │    Giỏ hàng                 ║");
+            System.out.println("║   5    │    Quay lại menu trước      ║");
+            System.out.println("║   6    │    Đăng xuất                ║");
+            System.out.println("╚════════╧═════════════════════════════╝");
+            System.out.println("Nhập vào lựa chọn của bạn 🧡🧡: ");
+            printFinish();
             choice = getInteger();
 
-              switch (choice) {
-                  case 1:
-                   displayProductList();
-                      break;
-                  case 2:
-                      break;
-                  case 3:
-                  addToCart();
-//                      cartView.displayMenuCart();
-                      break;
-                  case 4:
+            switch (choice) {
+                case 1:
+                    displayProductList();
+                    break;
+                case 2:
+                    searchProduct();
+                    break;
+                case 3:
+                    addToCart();
+                    break;
+                case 4:
+                    cartView.displayMenuCart();
+                case 5:
+                    return;
+                case 6:
+                    userView.logout();
+                default:
+                    break;
+            }
 
-                  case 5:
-                      return;
-                  default:
-                      break;
-              }
-
-        }while (choice !=5);
+        } while (choice != 5);
 
     }
 
-    public  void displayMenuAdminMenuProduct() {
-        int choice ;
+    private void searchProduct() {
+        List<Product>products = menuService.getAll();
+        if(products.isEmpty()){
+            printlnError("Chưa có sản phẩm");
+            return;
+        }
+        System.out.println("Nhập vào ký tự tên muốn tìm kiếm: ");
+        String keyName = getString().toLowerCase();
+        for (Product pr:products
+             ) {
+            if(pr.getProductName().toLowerCase().contains(keyName)){
+                System.out.println(pr);
+            }
+        }
+    }
+
+    public void displayMenuAdminMenuProduct() {
+        int choice;
         do {
-            System.out.println("******************ADMIN-PRODUCT*******************");
-            System.out.println("1.Thêm mới thực đơn vào menu");
-            System.out.println("2.Hiển thị danh sách menu");
-            System.out.println("3.Xóa");
-            System.out.println("4.Sửa");
-            System.out.println("5.Thoát");
-            System.out.println("6.Đăng xuất");
+
+
+            print(BLACK);
+            System.out.println("╔══════════════════════════════════════╗");
+            System.out.println("║          😍🧡ADMIN-PRODUCT😍😍      ║");
+            System.out.println("╟────────┬─────────────────────────────╢");
+            System.out.println("║   1    │    Thêm mới thực đơn        ║");
+            System.out.println("║   2    │    Hiển thị ds thực đơn     ║");
+            System.out.println("║   3    │    Xoá thực đơn             ║");
+            System.out.println("║   4    │    Sửa thực đơn             ║");
+            System.out.println("║   5    │    Tìm kiếm thực đơn        ║");
+            System.out.println("║   7    │    Quay lại menu trước      ║");
+            System.out.println("║   8    │    Đăng xuất                ║");
+            System.out.println("╚════════╧═════════════════════════════╝");
+            System.out.println("Nhập vào lựa chọn của bạn 🧡🧡: ");
+            printFinish();
+
             choice = Integer.parseInt(scanner.nextLine());
-            switch (choice){
+            switch (choice) {
                 case 1:
                     addProduct();
                     break;
@@ -87,11 +125,16 @@ public class MenuView {
                 case 3:
 
                     break;
+                case 7:
+                    return;
+                case 8:
+                    userView.logout();
+                    break;
                 default:
                     break;
             }
 
-        }while (choice !=5);
+        } while (choice != 5);
     }
 
     private void displayProductList() {
@@ -107,15 +150,14 @@ public class MenuView {
     }
 
 
-     private void addProduct() {
+    private void addProduct() {
         Product product = inputProduct();
         menuService.save(product);
-         System.out.println(" Thêm sản phẩm thành công !");
-     }
+        System.out.println(" Thêm sản phẩm thành công !");
+    }
 
 
-
-    public  Product inputProduct() {
+    public Product inputProduct() {
         Scanner scanner = new Scanner(System.in);
         Product product = new Product();
         System.out.println("Nhập thông tin sản phẩm.");
@@ -125,30 +167,36 @@ public class MenuView {
 
         // Nhập tên sản phẩm
         System.out.println("Nhập tên sản phẩm:");
-        String productName = scanner.nextLine();
+        String productName = getString();
         product.setProductName(productName);
 
         // Nhập giá sản phẩm
         System.out.println("Nhập giá sản phẩm:");
-        double price = Double.parseDouble(scanner.nextLine());
+        double price = getDouble();
         product.setPrice(price);
 
         // Nhập số lượng
         System.out.println("Nhập số lượng:");
-        int quantity = Integer.parseInt(scanner.nextLine());
+        int quantity = getInteger();
         product.setQuantity(quantity);
-        System.out.println("DANH SÁCH DANH MỤC");
-      List<Category> categories=   categoryService.displayAll();
-        for (Category ca:categories
-             ) {
+        printlnMess("DANH SÁCH DANH MỤC");
+        List<Category> categories = categoryService.getAll();
+        if(categories.isEmpty()){
+            printlnError("Danh sách danh mục rỗng.Vui lòng thêm danh mục trước !!.");
+            userView.displayAdminMenu(scanner);
+        }
+        for (Category ca : categories
+        ) {
             ca.disphayCategory();
         }
         System.out.println("hãy chọn id category:");
-         int categoryId = getInteger();
-        for (Category ca:categories
+        int categoryId = getInteger();
+
+        for (Category ca : categories
         ) {
-            if(ca.getCategoryId() ==categoryId){
+            if (ca.getCategoryId() == categoryId) {
                 product.setCategory(ca);
+
             }
         }
 
@@ -156,15 +204,14 @@ public class MenuView {
     }
 
 
-
     public void addToCart() {
-        List<Product> products = menuService.displayAll();
+
+        List<Product> products = menuService.getAll();
         if (products.isEmpty()) {
             printlnError("Chưa có sản phẩm");
-            return; // Rời khỏi phương thức nếu không có sản phẩm nào
+            return;
         }
 
-        // Hiển thị danh sách sản phẩm
         for (Product pr : products) {
             System.out.println("ID: " + pr.getProductId() + ", Name: " + pr.getProductName());
         }
@@ -175,26 +222,30 @@ public class MenuView {
 
         if (product == null) {
             System.err.println("Không tìm thấy sản phẩm với ID " + idPro);
-            return; // Rời khỏi phương thức nếu không tìm thấy sản phẩm
+            return;
         }
 
-        // Khởi tạo giỏ hàng
         Cart cart = new Cart();
         cart.setProduct(product);
-        cart.setCartId(cartService.getNewId());
+
+        cart.setCartId(cartService.autoInc());
 
         while (true) {
             System.out.println("Nhập vào số lượng muốn thêm vào giỏ hàng: ");
             int count = getInteger();
 
             if (count > product.getStock()) {
-                System.err.println("Số lượng này lớn hơn hàng chúng tôi có sẵn. Vui lòng giảm số lượng xuống.");
+                printlnError("Số lượng này lớn hơn hàng chúng tôi có sẵn. Vui lòng giảm số lượng xuống.");
             } else {
                 cart.setQuantity(count);
                 break;
             }
         }
+
+        printlnSuccess("Thêm vào  giỏ hàng thành công🎈🎈!!");
+        cartService.save(cart);
     }
+
 
 
 }

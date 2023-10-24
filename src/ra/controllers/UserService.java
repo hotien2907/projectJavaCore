@@ -1,13 +1,13 @@
 package ra.controllers;
-
 import ra.controllers.fileservice.IoFile;
 import ra.models.User;
 import ra.repository.IShop;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import static ra.config.ConsoleColor.*;
 
 public class UserService implements IShop<User> {
     private IoFile ioFile;
@@ -18,24 +18,40 @@ public class UserService implements IShop<User> {
     }
 
 
-    private int countAllUser() {
-        return ioFile.getAll().size();
-    }
-
     public int autoInc() {
-        return countAllUser() + 1;
+        int max = 0;
+        for (User us : getAll()) {
+            if (max < us.getId()) {
+                max = us.getId();
+            }
+        }
+        return max + 1;
     }
 
 
     @Override
     public void save(User user) {
-        allUser = ioFile.getAll();
-        allUser.add(user);
+        List<User> allUser = ioFile.getAll();
+        boolean updated = false;
+
+        for (int i = 0; i < allUser.size(); i++) {
+            if (allUser.get(i).getUsername().equals(user.getUsername())) {
+                allUser.set(i, user);  // Cập nhật thông tin người dùng
+                updated = true;
+                break;
+            }
+        }
+
+        if (!updated) {
+            allUser.add(user);
+        }
+
         ioFile.saveToFile(allUser);
     }
 
+
     @Override
-    public List<User> displayAll() {
+    public List<User> getAll() {
         List<User> allUser = ioFile.getAll();
         return allUser;
     }
@@ -52,7 +68,7 @@ public class UserService implements IShop<User> {
 
     @Override
     public void update(List<User> t) {
-
+        ioFile.saveToFile(t);
     }
 
     @Override
@@ -72,9 +88,12 @@ public class UserService implements IShop<User> {
 
     public User login(String userName, String pass) {
         User user = getUserByUsename(userName);
+
         if (user != null && user.getPassword().equals(pass)) {
             return user;
         }
+
+
         return null;
     }
 
@@ -103,7 +122,7 @@ public class UserService implements IShop<User> {
         return filteredUsers;
     }
 
-    public void setStatusLogin( String userName,Boolean newStatus) {
+    public void setStatusLogin(String userName, Boolean newStatus) {
         List<User> allUser = ioFile.getAll();
         for (User user : allUser) {
             if (user.getUsername().equals(userName)) {
@@ -114,41 +133,41 @@ public class UserService implements IShop<User> {
         ioFile.saveToFile(allUser);
     }
 
-//    public void setStatus(boolean status, String username) {
-//        allUser = ioFile.getAll();
-//        for (User user : allUser) {
-//            if (user.getUsername().equals(username)) {
-//                user.setStatus(status);
-//            }
-//        }
-//
-//        ioFile.saveToFile(allUser);
-//
-//    }
+    public void updateImportance(boolean status, String username) {
+        allUser = ioFile.getAll();
+        for (User user : allUser) {
+            if (user.getUsername().equals(username)) {
+                user.setImportance(status);
+            }
+        }
+
+        ioFile.saveToFile(allUser);
+
+    }
 
     public User userAcitive() {
         List<User> allUser = ioFile.getAll();
 
         for (User u : allUser) {
-            if (u.isStatus()) {
+            if (u != null && u.isStatus()) {
                 return u;
             }
         }
         return null;
     }
 
-//    public boolean isValidName(String name) {
-//
-//
-//        if (name.isEmpty()) {
-//            System.out.println("Tên không được để trống");
-//            return false;
-//        }else if (ioFile.getUserByUsename(name) !=null){
-//            System.out.println("Tên đã tồn tại.");
-//            return false;
-//        }
-//        return true;
-//    }
+    public boolean isValidName(String name) {
+
+
+        if (name.isEmpty()) {
+         printlnError("Tên không được để trống");
+            return false;
+        }else if (getUserByUsename(name) !=null){
+            printlnError("Tên đã tồn tại.Vui lòng nhập tên khác !!.");
+            return false;
+        }
+        return true;
+    }
 
 
 }

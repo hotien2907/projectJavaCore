@@ -1,20 +1,24 @@
 package ra.models;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Cart implements Serializable {
-
-    private int cartId ;
-    private Product product ;
+    @Serial
+    private static final long serialVersionUID = 1L;
+    private int cartId;
+    private Product product;
     private int quantity;
 
     public Cart() {
     }
+
     public Cart(int cartId, Product product, int quantity) {
         this.cartId = cartId;
         this.product = product;
         this.quantity = quantity;
     }
+
     public int getCartId() {
         return cartId;
     }
@@ -41,6 +45,12 @@ public class Cart implements Serializable {
 
 
     public void display() {
-        System.out.println("Id : " +cartId + " ➖ San pham " + product.getProductName() + " ➖ So luong " + quantity );
+        System.out.println("Id : " + cartId + "- Sản phẩm " + product.getProductName() + " - Số lượng " + quantity + " - Giá " + product.getPrice() + "x" + quantity + "= " + (quantity * product.getPrice()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Cart o = (Cart) obj;
+        return this.cartId == o.cartId && this.getProduct().equals(o.getProduct()) && this.quantity == o.quantity;
     }
 }

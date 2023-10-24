@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Inputmethods {
     private static final String ERROR_ALERT =
-            "\n+--------------------------------+\n" +
+            "\n+----------------------------------+\n" +
             "|     ĐỊNH DẠNG KHÔNG HỢP LỆ       |\n" +
             "+----------------------------------+\n";
     ;

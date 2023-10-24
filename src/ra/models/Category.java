@@ -36,7 +36,7 @@ public class Category implements Serializable {
 
     public void disphayCategory() {
 
-        System.out.println("Mã danh mục " + this.categoryId + " ---- Tên danh mục " + this.categoryName);
+        System.out.println("Mã danh mục: " + this.categoryId + " ---- Tên danh mục: " + this.categoryName);
 
     }
 
